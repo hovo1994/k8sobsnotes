@@ -12,62 +12,6 @@ Open it in [app.diagrams.net](https://app.diagrams.net) or the draw.io VS
 Code extension. The Mermaid version below renders inline on GitHub and
 GitLab.
 
-```mermaid
-flowchart LR
-  subgraph cluster[Kubernetes cluster]
-    subgraph cp[Control plane]
-      api[kube-apiserver]
-      etcd[(etcd)]
-    end
-    subgraph node[Worker node x N]
-      app[App pods]
-      kubelet[kubelet + cAdvisor]
-      logs["/var/log/pods"]
-      alloy[Grafana Alloy<br/>DaemonSet]
-      nodeexp[node-exporter<br/>DaemonSet]
-    end
-    subgraph mon[monitoring namespace]
-      ksm[kube-state-metrics]
-      prom[Prometheus]
-      am[Alertmanager]
-      subgraph loki[Loki]
-        dist[distributor] --> ing[ingester]
-        qf[query-frontend] --> querier[querier]
-        querier -->|recent| ing
-        ruler[ruler]
-        compactor[compactor]
-      end
-      grafana[Grafana]
-      ingress[Ingress / Gateway]
-    end
-  end
-  s3[(Object storage)]
-  ltm[Thanos / Mimir<br/>optional]
-  notify[Slack / PagerDuty]
-  users((Engineers))
-
-  api -->|watch| ksm
-  ksm -->|scrape| prom
-  kubelet -->|scrape| prom
-  nodeexp -->|scrape| prom
-  app -->|scrape /metrics| prom
-  api -->|scrape| prom
-  prom -.->|remote_write| ltm
-
-  app -->|stdout| logs -->|tail| alloy -->|push| dist
-  ing -->|flush chunks + index| s3
-  querier -->|older| s3
-  compactor -.->|retention| s3
-
-  users --> ingress --> grafana
-  grafana -->|PromQL| prom
-  grafana -->|LogQL| qf
-
-  prom -->|alerts| am
-  ruler -->|log alerts| am
-  ruler -.->|recording rules| prom
-  am --> notify
-```
 
 ## Components
 
