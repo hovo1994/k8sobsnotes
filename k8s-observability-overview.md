@@ -26,7 +26,6 @@ GitLab.
 | Loki | Deployment / StatefulSets | 3100 | Stores logs. Indexes labels only; chunks go to object storage. |
 | Grafana | Deployment | 3000 | Dashboards, Explore, alerting UI. Queries Prometheus and Loki; stores no telemetry itself. |
 | Object storage | Outside the cluster | | Loki chunks and index. Optionally Thanos/Mimir blocks. |
-| Thanos / Mimir | Optional | | Long-term, multi-cluster metrics. Prometheus remote-writes or ships blocks to it. |
 
 ## How data flows
 
