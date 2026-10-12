@@ -9,8 +9,7 @@ the query guides cover what to do once the data is there:
 
 **Diagram:** [k8s-observability-stack.drawio](k8s-observability-stack.drawio).
 Open it in [app.diagrams.net](https://app.diagrams.net) or the draw.io VS
-Code extension. The Mermaid version below renders inline on GitHub and
-GitLab.
+Code extension. 
 
 
 ## Components
